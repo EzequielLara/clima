@@ -1,20 +1,22 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import Header from './componentes/Header';
 import Formulario from './componentes/Formulario';
+import Clima from './componentes/Clima';
 
 
 function App() {
 
-  // state del formulario
+  // states
   const [busqueda, guardarBusqueda]=useState({
     ciudad:'',
     pais:''
   });
-
-  const {ciudad, pais} = busqueda;
-
   const [consultar, guardarConsultar] = useState(false);
-
+  const [resultado, guardarResultado]=useState({});
+  
+  
+  const {ciudad, pais} = busqueda;
+  
   useEffect(()=>{
     const consultarAPI =  async()=>{
       if(consultar){
@@ -23,7 +25,8 @@ function App() {
 
         const respuesta = await fetch(url);
         const resultado = await respuesta.json();
-        console.log(resultado);
+        guardarResultado(resultado);
+        guardarConsultar(false);
       };
      
     }; 
@@ -45,7 +48,7 @@ function App() {
             />
             
             </div>
-            <div className="col m6 s12">DOS</div>
+            <div className="col m6 s12"><Clima resultado = {resultado}/></div>
           </div>
         </div>
       </div> 
